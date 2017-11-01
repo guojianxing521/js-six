@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			img{
+				width: 100px;
+				height: 100px;
+				position: absolute;
+				left: 100px;
+				top: 100px;
+			}
+		</style>
+	</head>
+	<body>
+		<img src="xn.png"  />
+		<img src="xn.png"  />
+		<img src="xn.png"  />
+		<img src="xn.png"  />
+		<img src="xn.png"  />
+		<img src="xn.png"  />
+		<script>
+			var aImg = document.getElementsByTagName('img');
+			
+			//调用函数
+			
+			for(var i =0;i<aImg.length;i++){
+				tuo(aImg[i]);
+			}
+			//多个图片时封装函数
+			function tuo(obj){
+				//给图片添加鼠标点击事件
+			obj.onmousedown = function(ev){
+				
+				//标准浏览器下取消默认行为的方法
+				ev.preventDefault&&ev.preventDefault();//短路写法
+              //IE浏览器取消默认行为的方法,加取消图片
+//           if(ev.returnValue){
+//           	ev.returnValue();
+//           }
+//          // 让图片设置全部捕获（将鼠标的焦点放置在图片上面 从而达到取消图片的默认行为）
+//           aImg.setCapture&&aImg.setCapture();
+				
+				//获取事件对象，兼容一下
+				ev =ev ||event;
+				//获取鼠标与图片移动时的固定距离
+				var disX =ev.clientX - this.offsetLeft;
+				var disY = ev.clientY -this.offsetTop;
+				
+				//给整个文档添加鼠标移动事件
+				document.onmousemove = function(ev){
+					//获取鼠标移动时的事件对象
+					ev = ev||event;
+					//图片绝对定位的位置为鼠标的位置减去固定距离
+					//注意一定要加单位
+					obj.style.left = ev.clientX - disX +'px';
+					obj.style.top =ev.clientY - disY +'px';
+					//给整个文档添加鼠标抬起事件
+					document.onmouseup = function(){
+						document.onmousemove = document.onmouseup =null;
+						//释放全局捕获
+//						aImg.releaseCapture&&aImg.releaseCapture();
+					}
+					
+				}
+//				return false;//取消默认行为的普通写法
+			}
+			}
+			
+		</script>
+	</body>
+</html>

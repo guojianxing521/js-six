@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			body{
+				height: 2000px;
+			}
+			img{
+			width: 100px;
+			position: absolute;
+		}
+		</style>
+	</head>
+	<body>
+		<img src="xn.png" />
+		<script type="text/javascript">
+			var aImg = document.getElementsByTagName('img')[0];
+			
+			aImg.onmousedown = function(ev){
+				ev = ev ||event;
+				//计算固定距离
+				var X= ev.clientX - aImg.offsetLeft;
+				var Y= ev.clientY - aImg.offsetTop;
+				
+				document.onmousemove = function(ev){
+					ev = ev||event;//时间对象
+					
+					//兼容性获取垂直方向滚动过的距离
+					var scrollT = document.documentElement.scrollTop||document.body.scrollTop;
+					
+					aImg.style.left = ev.clientX -X +'px';
+					aImg.style.top= ev.clientY +scrollT	-Y+'px';//注意单位，垂直方向加上滚动过的距离
+				   //鼠标抬起,取消文档抬起和移动事件
+				    document.onmouseup = function(){
+				   	document.onmousemove =document.onmouseup = null;
+				   }
+				  limilt();
+				}
+				return false;//取消事件的默认行为
+			}
+			
+			//封装一个函数,限制小鸟运动的区域，在鼠标移动的后面调用
+			function limilt(){
+				if(aImg.offsetLeft<0){
+					aImg.style.left = 0;
+				}
+				if(aImg.offsetLeft>document.documentElement.clientWidth - aImg.offsetWidth){
+					aImg.style.left = document.documentElement.clientWidth - aImg.offsetWidth+'px';//注意加单位
+				}
+				if(aImg.offsetTop<0){
+					aImg.style.top = 0;
+				}
+				if(aImg.offsetTop>document.documentElement.clientHeight - aImg.offsetHeight){
+					aImg.style.top = document.documentElement.clientHeight - aImg.offsetHeight+'px';
+				}
+			}
+		</script>
+	</body>
+</html>

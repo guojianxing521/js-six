@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			div{
+				width: 80px;
+				height: 80px;
+				background: url(fly.gif) no-repeat;
+				position: absolute;
+				left: 100px;
+				right: 100px;
+				
+			}
+		</style>
+	</head>
+	<body>
+		<div></div>
+		<script>
+			var aDiv = document.getElementsByTagName('div')[0];
+			//创建一个对象，放每个方向的开关
+			var onoff = {
+			 left : false,
+			 right:false,
+			 top:false,
+			 buttom:false
+			}
+//			function  key(pos){
+//				aDiv.style.
+//			}
+//              根据开关来控制飞机的方向
+	           
+			
+			//给文档添加键盘事件 ，通过键盘事件，打开对应的开关
+			document.onkeydown = function(ev){
+				ev = ev||event;
+				if(ev.keyCode==37){
+					onoff.left=true;
+					
+				}else if(ev.keyCode == 39){
+					onoff.right=true;
+					
+				}else if(ev.keyCode == 38){
+					onoff.top=true;
+					
+				}else if(ev.keyCode == 40){
+					onoff.buttom=true;
+				
+				}
+			}
+			//给文档添加键盘抬起事件，抬起之后，开关未false
+			document.onkeyup = function(ev){
+				ev = ev ||event;
+				switch(ev.keyCode){
+					case 37:
+					onoff.left = false;
+					break;
+					case 38:
+					onoff.top= false;
+					break;
+					case 39:
+					onoff.right = false;
+					break;
+					case 40:
+					onoff.buttom= false;
+					break;
+				}
+				}
+				
+
+			//setInterval可以按照指定的周期（以毫秒计）来调用函数或计算表达式
+			//格式setInterval（code,millisec）,第一个参数为调用函数，第二个参数为调用周期，单位为毫秒
+			// 我在页面上开启一个定时器  定时器里面 让飞机走起来  但是有条件 ，哪一个方向开关是真的 才让对应的那个方向走起来
+			setInterval(function(){
+				limit();
+			  if(onoff.left){
+					aDiv.style.left = aDiv.offsetLeft-10+'px';
+					aDiv.style.transform = 'rotate(-90deg)';
+				}else if(onoff.right){
+					aDiv.style.left = aDiv.offsetLeft +10+'px';
+				    aDiv.style.transform= 'rotate(90deg)';
+				}else if(onoff.top){
+					aDiv.style.top = aDiv.offsetTop -10+'px';
+				    aDiv.style.transform= 'rotate(0deg)';
+				}else if(onoff.buttom){
+					aDiv.style.top = aDiv.offsetTop +10+'px';
+				    aDiv.style.transform= 'rotate(180deg)';
+				}
+				},30);//30毫秒
+				//限制活动区域
+				function limit(ev){
+					ev = ev||event;
+					if(aDiv.offsetLeft<0){
+						aDiv.style.left = 0
+					
+					}
+					if(	aDiv.offsetLeft>pos().l-aDiv.offsetWidth){
+						aDiv.style.left=pos().l-aDiv.offsetWidth+'px';
+					}
+					if(	aDiv.offsetTop<0){
+						aDiv.style.top=0;
+					}
+					if(aDiv.offsetTop>pos().t-aDiv.offsetHeight)
+						aDiv.style.top=pos().t-aDiv.offsetHeight+'px';
+				}
+				
+				
+				
+				//对此用法有意见》？？？？？？？？？
+				function pos(){
+					return {
+						l:document.documentElement.clientWidth,
+					    t:document.documentElement.clientHeight
+					  };
+				}
+		</script>
+	</body>
+</html>

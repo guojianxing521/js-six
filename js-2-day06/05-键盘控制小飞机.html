@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			div{
+				width: 80px;
+				height: 80px;
+				background: url(fly.gif) no-repeat;
+				position: absolute;
+				left: 100px;
+				right: 100px;
+				
+			}
+		</style>
+	</head>
+	<body>
+		<div></div>
+		<script>
+			var aDiv = document.getElementsByTagName('div')[0];
+			
+			document.onkeydown = function(e){
+				e =e||event;
+				if(e.keyCode == 37){
+				aDiv.style.left = aDiv.offsetLeft -10+'px';
+				aDiv.style.transform= 'rotate(-90deg)';
+//						aDiv.style.transform = "rotate(270deg)";
+				}else if(e.keyCode == 39){
+				aDiv.style.left = aDiv.offsetLeft +10+'px';
+				aDiv.style.transform= 'rotate(90deg)';
+				}else if(e.keyCode == 38){
+				aDiv.style.top = aDiv.offsetTop -10+'px';
+				aDiv.style.transform= 'rotate(0deg)';
+				}else if(e.keyCode == 40){
+				aDiv.style.top = aDiv.offsetTop +10+'px';
+				aDiv.style.transform= 'rotate(180deg)';
+				}
+			}
+		</script>
+	</body>
+</html>

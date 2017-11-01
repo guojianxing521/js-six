@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+			<ul id="list">
+			<li>
+				<input type="button" value="-">
+				<strong>0</strong>
+				<input type="button" value="+"> 单价：
+				<em>12.5元</em> 小计：
+				<span>0元</span>
+			</li>
+			<li>
+				<input type="button" value="-">
+				<strong>0</strong>
+				<input type="button" value="+"> 单价：
+				<em>10.5元</em> 小计：
+				<span>0元</span>
+			</li>
+			<li>
+				<input type="button" value="-">
+				<strong>0</strong>
+				<input type="button" value="+"> 单价：
+				<em>8元</em> 小计：
+				<span>0元</span>
+			</li>
+			<li>
+				<input type="button" value="-">
+				<strong>0</strong>
+				<input type="button" value="+"> 单价：
+				<em>8.5元</em> 小计：
+				<span>0元</span>
+			</li>
+			<li>
+				<input type="button" value="-">
+				<strong>0</strong>
+				<input type="button" value="+"> 单价：
+				<em>14.5元</em> 小计：
+				<span>0元</span>
+			</li>
+		</ul>
+		<div id="total">
+		        商品合计：0件<br />
+		        共花费了:0元<br />
+		其中最贵的商品单价是：0元
+	        
+   		</div>
+	</body>
+	<script>
+		
+		//先完成一个
+		var oList = document.getElementById('list');
+		var aLi = oList.getElementsByTagName('li');
+		var oTotal = document.getElementById('total');
+		
+		//三个全局变量
+		var total = 0;//数量总和
+		var totalMoney = 0;//保存总价格
+		var max =0;//保存最贵的单品
+		//给每个li都调用封装函数
+		for(var i=0;i<aLi.length;i++){
+			get(aLi[i]);
+		}
+	    //封装函数
+	    function get(obj){
+	   //每个li里面的变量
+	    var aIpt = obj.getElementsByTagName('input');
+	    var aStrong = obj.getElementsByTagName('strong')[0];
+	    var aEm = obj.getElementsByTagName('em')[0];
+	    var aSpan = obj.getElementsByTagName('span')[0];
+	    //局部变量
+	    var num = 0;//记录数量
+	    var price  = 0;//记录该商品话费的金额
+		aIpt[1].onclick = function(){
+			num++;
+			
+			aStrong.innerHTML = num;
+			price = parseFloat(aEm.innerHTML)*num;
+			aSpan.innerHTML = price+'元';
+			
+			//全局计算
+			total++;
+			totalMoney+=parseFloat(aEm.innerHTML);//点击一次加一次自己的单价
+			//计算最大值
+			if(parseFloat(aEm.innerHTML)>max){
+				max =parseFloat(aEm.innerHTML);
+			}
+			oTotal.innerHTML = ' 商品合计：'+total+'件<br /> 共花费了:'+totalMoney+'元<br />	其中最贵的商品单价是：'+max+'元';
+		  
+		}
+		aIpt[0].onclick = function(){
+			if(num>0){//限制只能减到1
+			num--;
+			aStrong.innerHTML = num;
+			price = parseFloat(aEm.innerHTML)*num;
+			aSpan.innerHTML = price+'元';
+			//全局计算
+			total--;
+			totalMoney-=parseFloat(aEm.innerHTML);//点击一次减一次自己的单价
+			if(aStrong.innerHTML==0){
+				max=0;
+				for(var i=0;i<aLi.length;i++){
+					if(aLi[i].children[1].innerHTML!=0){
+						if(parseFloat(aLi[i].children[3].innerHTML)>max){
+							max=parseFloat(aLi[i].children[3].innerHTML);
+						}
+					}
+				}
+				
+				
+			}
+			oTotal.innerHTML = ' 商品合计：'+total+'件<br />共花费了:'+totalMoney+'元<br />其中最贵的商品单价是：'+max+'元';
+		}
+			
+		}
+	    }
+	    
+	    
+	   
+	</script>
+</html>
